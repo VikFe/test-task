@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 import { fetchUserById } from "@/utils/api";
 import { User } from "../../interfaces/Users";
-// import UserCard from "@/components/UserCard";
 import Loader from "@/components/Loader";
 
 interface UserPageProps {
@@ -10,11 +10,18 @@ interface UserPageProps {
 }
 
 // Функция получения пользователя с API
-export const getServerSideProps = async ({
-  params,
-}: {
-  params: { id: string };
-}) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { params } = context;
+
+  if (!params || typeof params.id !== "string") {
+    return {
+      props: {
+        user: null,
+        error: "ID пользователя не указан",
+      },
+    };
+  }
+
   let user: User | null = null;
   let error = null;
 
@@ -35,18 +42,12 @@ export const getServerSideProps = async ({
 
 // Компонент страницы пользователя
 const UserPage = ({ user, error }: UserPageProps) => {
-  const router = useRouter();
-
-  if (router.isFallback) {
-    return <Loader />;
-  }
-
   if (error) {
     return <div>{error}</div>;
   }
 
   if (!user) {
-    return <Loader />; // Показать загрузку, если данные еще не получены
+    return <Loader />;
   }
 
   return (

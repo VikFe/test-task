@@ -18,7 +18,7 @@ interface UserCardProps {
 
 const UserCard: React.FC<UserCardProps> = ({ user }) => {
   return (
-    <UIDCard className="outline-double outline-3 outline-offset-2 outline-blue-500/50 drop-shadow-xl font-mono ......">
+    <UIDCard className="outline-double outline-3 outline-offset-2 outline-blue-500/50 drop-shadow-xl font-mono ...">
       <CardHeader className="border-2 border-y-zinc-300...">
         <CardTitle>{user.name}</CardTitle>
         <CardDescription>Email: {user.email}</CardDescription>
